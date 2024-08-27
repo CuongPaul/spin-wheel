@@ -1,0 +1,27 @@
+.wheel {
+  display: flex;
+  position: relative;
+  justify-content: center;
+
+  .center-circle {
+    top: 50%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    border-radius: 60px;
+    background-color: #fff;
+    transform: translateY(-50%);
+
+    .triangle {
+      top: 50%;
+      width: 0;
+      height: 0;
+      right: -25%;
+      position: absolute;
+      transform: translateY(-50%);
+      border-left: 30px solid white;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+    }
+  }
+}
