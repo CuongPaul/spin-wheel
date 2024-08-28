@@ -1,37 +1,27 @@
-import { useRef, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import styles from "./index.module.scss";
 
 const SpinWheel = () => {
-  const items: string[] = [
-    "cat",
-    "cow",
-    "dog",
-    "pig",
-    "duck",
-    "horse",
-    "sheep",
-    "chicken",
-  ];
+  const [items, setItems] = useState<string[]>([]);
+  const [winner, setWinner] = useState<string>("");
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   let speed: number = 0;
-  let pause: boolean = false;
   let currentDeg: number = 0;
+  let pause: boolean = false;
   const step: number = 360 / items.length;
   let maxRotation: number =
     Math.floor(Math.random() * (360 * 6 - 360 * 3 + 1)) + 360 * 3;
-  const colors: { b: number; g: number; r: number }[] = items.map(
-    (_, index) => ({
-      b: index % 2 === 0 ? 255 : 255,
-      g: index % 2 === 0 ? 255 : 220,
-      r: index % 2 === 0 ? 255 : 206,
-    })
-  );
   let itemDegs: {
     [key in (typeof items)[number]]: { endDeg: number; startDeg: number };
   } = {};
-
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const colors: { b: number; g: number; r: number }[] = items.map(() => ({
+    b: Math.floor(Math.random() * 255),
+    g: Math.floor(Math.random() * 255),
+    r: Math.floor(Math.random() * 255),
+  }));
 
   const toRad = (deg: number) => deg * (Math.PI / 180.0);
 
@@ -64,7 +54,7 @@ const SpinWheel = () => {
       ctx.save();
 
       ctx.textAlign = "center";
-      ctx.fillStyle = "#0E2FDB";
+      ctx.fillStyle = "#FFFFFF";
       ctx.font = "bold 36px serif";
       ctx.translate(centerX, centerY);
       ctx.rotate(toRad((startDeg + endDeg) / 2));
@@ -78,7 +68,7 @@ const SpinWheel = () => {
         startDeg % 360 > 270 &&
         startDeg % 360 < 360
       ) {
-        console.log(items[i]);
+        setWinner(items[i]);
       }
 
       itemDegs[items[i]] = { endDeg: endDeg, startDeg: startDeg };
@@ -127,12 +117,30 @@ const SpinWheel = () => {
 
   return (
     <div className={styles["spin-wheel-container"]}>
-      <div className={styles["wheel"]}>
-        <canvas width="800" height="800" ref={canvasRef} />
-        <div onClick={spin} className={styles["center-circle"]}>
-          <span>Spin</span>
-          <div className={styles["triangle"]} />
+      {items.length ? (
+        <div className={styles["wheel"]}>
+          <canvas width="800" height="800" ref={canvasRef} />
+          <div onClick={spin} className={styles["center-circle"]}>
+            <span>Spin</span>
+            <div className={styles["triangle"]} />
+          </div>
         </div>
+      ) : null}
+      <div className={styles["general"]}>
+        {items.length ? <span>The winner: {winner}</span> : ""}
+        <textarea
+          rows={20}
+          cols={40}
+          ref={textAreaRef}
+          placeholder="Enter item separated by new line"
+          onChange={(e) => {
+            const newItems = e.target.value.split("\n");
+
+            setItems(newItems);
+
+            drawWheel();
+          }}
+        />
       </div>
     </div>
   );

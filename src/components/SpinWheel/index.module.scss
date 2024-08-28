@@ -1,10 +1,10 @@
 .spin-wheel-container {
-  width: 100vw;
+  display: flex;
   height: 100vh;
+  align-items: center;
+  justify-content: space-evenly;
 
   .wheel {
-    width: 100%;
-    height: 100%;
     display: flex;
     position: relative;
     align-items: center;
@@ -39,6 +39,24 @@
         border-bottom: 10px solid transparent;
         border-left: 30px solid rgba(255, 138, 1, 1);
       }
+    }
+  }
+
+  .general {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    span {
+      font-size: 24px;
+      color: #ffffff;
+    }
+
+    textarea {
+      resize: none;
+      color: #ffffff;
+      margin-top: 24px;
+      background-color: rgba(20, 20, 20, 0.2);
     }
   }
 }
