@@ -12,9 +12,9 @@
 
     .center-circle {
       top: 50%;
-      width: 75px;
-      height: 75px;
+      width: 100px;
       display: flex;
+      height: 100px;
       cursor: pointer;
       border-radius: 50%;
       position: absolute;
@@ -24,19 +24,20 @@
       background: linear-gradient(250deg, #ff8a00 15%, #ffbc00 85%);
 
       span {
+        font-size: 24px;
         color: #ffffff;
       }
 
       .triangle {
-        top: 50%;
+        top: 48%;
         width: 0;
         height: 0;
-        right: -15px;
+        right: -20px;
         position: absolute;
         transform: translateY(-50%);
-        border-top: 10px solid transparent;
+        border-top: 15px solid transparent;
         border-bottom: 10px solid transparent;
-        border-left: 20px solid rgba(255, 138, 1, 1);
+        border-left: 30px solid rgba(255, 138, 1, 1);
       }
     }
   }

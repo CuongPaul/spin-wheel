@@ -65,10 +65,10 @@ const SpinWheel = () => {
 
       ctx.textAlign = "center";
       ctx.fillStyle = "#0E2FDB";
-      ctx.font = "bold 24px serif";
+      ctx.font = "bold 36px serif";
       ctx.translate(centerX, centerY);
       ctx.rotate(toRad((startDeg + endDeg) / 2));
-      ctx.fillText(items[i], 130, 10);
+      ctx.fillText(items[i], 250, 10);
 
       ctx.restore();
 
@@ -115,7 +115,7 @@ const SpinWheel = () => {
 
     const randomResult = items[Math.floor(Math.random() * items.length)];
 
-    maxRotation = 360 * 6 - itemDegs[randomResult].endDeg + 10;
+    maxRotation = 360 * 6 - itemDegs[randomResult].endDeg + 25;
 
     itemDegs = {};
     pause = false;
@@ -128,7 +128,7 @@ const SpinWheel = () => {
   return (
     <div className={styles["spin-wheel-container"]}>
       <div className={styles["wheel"]}>
-        <canvas width="500" height="500" ref={canvasRef} />
+        <canvas width="800" height="800" ref={canvasRef} />
         <div onClick={spin} className={styles["center-circle"]}>
           <span>Spin</span>
           <div className={styles["triangle"]} />
