@@ -3,12 +3,12 @@ import { useRef, useState, useEffect } from "react";
 import styles from "./index.module.scss";
 
 const SpinWheel = () => {
+  const speed = useRef<number>(0);
   const [items, setItems] = useState<string[]>([]);
   const [winner, setWinner] = useState<string>("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  let speed: number = 0;
   let currentDeg: number = 0;
   let pause: boolean = false;
   const step: number = 360 / items.length;
@@ -63,6 +63,7 @@ const SpinWheel = () => {
       ctx.restore();
 
       if (
+        pause &&
         endDeg % 360 > 0 &&
         endDeg % 360 < 90 &&
         startDeg % 360 > 270 &&
@@ -81,14 +82,14 @@ const SpinWheel = () => {
     const percent =
       ((currentDeg - maxRotation) * 100) / (0 - maxRotation) / 100;
 
-    speed = Math.sin((percent * Math.PI) / 2) * 20;
+    speed.current = Math.sin((percent * Math.PI) / 2) * 20;
 
-    if (speed < 0.01) {
-      speed = 0;
+    if (speed.current < 0.01) {
       pause = true;
+      speed.current = 0;
     }
 
-    currentDeg += speed;
+    currentDeg += speed.current;
 
     drawWheel();
 
@@ -96,7 +97,9 @@ const SpinWheel = () => {
   };
 
   const spin = () => {
-    if (speed !== 0) return;
+    if (speed.current !== 0) return;
+
+    setWinner("");
 
     currentDeg = 0;
     maxRotation = 0;
@@ -113,7 +116,8 @@ const SpinWheel = () => {
     window.requestAnimationFrame(animate);
   };
 
-  useEffect(() => drawWheel());
+  // eslint-disable-next-line
+  useEffect(() => drawWheel(), [items]);
 
   return (
     <div className={styles["spin-wheel-container"]}>
@@ -127,7 +131,7 @@ const SpinWheel = () => {
         </div>
       ) : null}
       <div className={styles["general"]}>
-        {items.length ? <span>The winner: {winner}</span> : ""}
+        {winner ? <span>The winner: {winner}</span> : null}
         <textarea
           rows={20}
           cols={40}
