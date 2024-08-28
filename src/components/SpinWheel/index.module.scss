@@ -14,10 +14,18 @@
       top: 50%;
       width: 75px;
       height: 75px;
+      display: flex;
+      cursor: pointer;
       border-radius: 50%;
       position: absolute;
-      background-color: #fff;
+      align-items: center;
+      justify-content: center;
       transform: translateY(-50%);
+      background: linear-gradient(250deg, #ff8a00 15%, #ffbc00 85%);
+
+      span {
+        color: #ffffff;
+      }
 
       .triangle {
         top: 50%;
@@ -26,9 +34,9 @@
         right: -15px;
         position: absolute;
         transform: translateY(-50%);
-        border-left: 20px solid white;
         border-top: 10px solid transparent;
         border-bottom: 10px solid transparent;
+        border-left: 20px solid rgba(255, 138, 1, 1);
       }
     }
   }
